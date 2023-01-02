@@ -4,9 +4,8 @@ const jwt = require('jsonwebtoken')
 
 
 const signup = async (req,res)=>{
-  
-    const {name , email , Password, cPassword} = req.body
     
+    const {name , email , Password, cPassword} = req.body
      if(!name || !email || !Password|| !cPassword){
               res.status(422).json({errors: 'Please fill the required fields'});
      } 
@@ -17,10 +16,10 @@ const signup = async (req,res)=>{
         const userExist= await User.findOne({ email : email } )
          
               if(userExist){
-              res.status(422).json('email already exists')
-             }else
+              res.status(403).json('email already exists')
+             }else 
              if(Password != cPassword){
-                 res.status(422).json({errors: 'password and confirm password must be the same'});
+                 res.status(410).json({errors: 'password and confirm password must be the same'});
              }
              else {
              const secret= bcrypt.hashSync(Password);
@@ -67,10 +66,10 @@ const signup = async (req,res)=>{
 
                     
                 }else{
-                    res.status(404).json('Log In failed due to incorrect credentials');
+                    res.status(410).json('Log In failed due to incorrect credentials');
                 } 
             } else{
-                res.status(404).json('Log In failed due to incorrect credentials');
+                res.status(410).json('Log In failed due to incorrect credentials');
             }      
         }
 

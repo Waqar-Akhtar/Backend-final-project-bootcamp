@@ -3,12 +3,12 @@ const { getActivity, createActivity, deleteActivity, updateActivity } = require(
 const routers = express.Router()
 const Auth = require('../Middleware/auth')
 
-routers.get('/',Auth , getActivity)
+routers.get('/get',Auth , getActivity)
 
-routers.post('/', Auth, createActivity)
+routers.post('/create', Auth, createActivity)
 
-routers.delete('/:id', Auth, deleteActivity)
+routers.delete('/delete/:id', Auth, deleteActivity)
 
-routers.put('/:id', Auth, updateActivity)
+routers.put('/update/:id', Auth, updateActivity)
 
 module.exports = routers

@@ -2,6 +2,8 @@ const Activity = require('../Model/Activities');
 
 
 
+//  Creatiom of Activity 
+
 const createActivity = async (req, res) =>{
     const {activity , duration, date, description } = req.body
 
@@ -23,28 +25,29 @@ const createActivity = async (req, res) =>{
 
 }
 
+// Update activity
 
 const updateActivity = async (req, res) =>{
 
     const id = req.params.id
     const {activity , duration, date, description } = req.body
 
-    const newActivity = new Activity({
+    try {
+       const updateActivity=  await Activity.findByIdAndUpdate(id, {$set: {
         activity: activity,
         duration: duration,
         date : date,
         description: description,
         userId : req.userId
-    })
-
-    try {
-       const updateActivity=  await Activity.findByIdAndUpdate(id, newActivity, { new: true })
+    } }, { new: true })
         res.status(200).json({updateActivity: updateActivity})
 
     } catch (error) {
         res.status(500).json({error: error, message: "Something went Wrong"})
     }
 }
+
+// Delete Activity
 
 const deleteActivity = async (req, res) =>{
     const id = req.params.id
@@ -55,7 +58,7 @@ const deleteActivity = async (req, res) =>{
         res.status(500).json({error: error, message: "Something went Wrong"})
     }
 }
-
+// get Activity 
 const getActivity = async (req, res) =>{
     try {
         const activities  = await Activity.find({userId : req.userId})
